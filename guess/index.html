@@ -1,0 +1,47 @@
+<html>
+
+<head>
+    <title>
+        Guess Project
+    </title>
+</head>
+
+<body>
+    <div>
+        <h1>
+            Guess Project
+        </h1>
+        <p>
+            I'm guessing a number between 1 and 100. Can you guess it?
+        </p>
+        <p>
+            your guess: <input id="guess" type="number" min="1" max="100">
+        </p>
+
+        <p id="result">
+
+        </p>
+        <button id="submit">Guess!</button>
+    </div>
+
+    <script type="text/javascript">
+        const myNum = Math.floor(Math.random() * 100) + 1;
+        console.log("myNum: " + myNum);
+
+        document.getElementById("submit").onclick = function () {
+            const guessedString = document.getElementById("guess").value
+            const guessedNumber = parseInt(guessedString);
+            let result;
+            if (guessedNumber === myNum) {
+                result = "Beccato!"
+            } else if (guessedNumber <= myNum) {
+                result = "Troppo basso!"
+            } else {
+                result = "Troppo alto!"
+            }
+            document.getElementById("result").innerText = result;
+        }
+    </script>
+</body>
+
+</html>
