@@ -1,0 +1,1 @@
+INSERT INTO USERS VALUES (1,'Simone','trevisan','trvsmn86s28h501m');
