@@ -1,11 +1,12 @@
 const express = require('express')
 const cors = require('cors')
+require('dotenv').config();
 const pool = require("./db")
 
 const app = express()
-const port = 3003
+const port = process.env.PORT || 3000;
 
-var whitelist = ['http://example1.com', 'http://example2.com', 'http://localhost']
+var whitelist = ['http://example1.com', 'http://example2.com']
 var corsOptions = {
     origin: (origin, callback) => {
         // console.log('origin', origin)
@@ -25,7 +26,7 @@ app.use(cors(corsOptions)) //uso i cors su tutte le richieste
 app.options('*', cors(corsOptions))
 
 app.get('/', (req, res) => {
-    res.send('Hello World!')
+    res.send('Server is Running...')
 })
 
 app.post('/item', async (req, res) => {
