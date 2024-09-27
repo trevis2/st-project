@@ -2,33 +2,38 @@ package it.trevisan.simone;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
-        Stream<String> stream = Stream.of("uno", "due", "tre", "quattro", "cinque");
+        // Stream<String> stream = Stream.of("uno", "due", "tre", "quattro", "cinque");
 
-        // Invertiamo gli elementi dello stream e li stampiamo
-        ArrayList<String> list = stream.collect(Collectors.toCollection(ArrayList::new));
-        Collections.reverse(list);
-        list.forEach(System.out::println);
+        // // Invertiamo gli elementi dello stream e li stampiamo
+        // ArrayList<String> list =
+        // stream.collect(Collectors.toCollection(ArrayList::new));
+        // Collections.reverse(list);
+        // list.forEach(System.out::println);
 
         HashMap<Integer, String> configMap = new HashMap<Integer, String>();
         // configMap.put(2, "DUE");
         configMap.put(3, "Tre");
         configMap.put(7, "Sette");
         configMap.put(11, "Undici");
-        configMap.put(13, "Tredici");
-        configMap.put(17, "Diciassette");
-        configMap.put(19, "Diciannove");
-        configMap.put(23, "Ventitr");
+        // configMap.put(13, "Tredici");
+        // configMap.put(17, "Diciassette");
+        // configMap.put(19, "Diciannove");
+        // configMap.put(23, "Ventitr");
 
         FizzBuzz item = new FizzBuzz(configMap);
         // verify(item.generate2(2), configMap, 2);
@@ -36,25 +41,60 @@ public class Main {
         // verify(item.generate2(5), configMap, 5);
         // verify(item.generate2(500), configMap, 500);
 
-        int test = 100;
+        int numeroElementi = 1000;
         long start = System.currentTimeMillis();
-        item.generate(test);
-        System.out.println("generate:" + (System.currentTimeMillis() - start));
-        start = System.currentTimeMillis();
-        item.generate2(test);
+        // item.generate(test);
+        // System.out.println("generate:" + (System.currentTimeMillis() - start));
+        // start = System.currentTimeMillis();
+        String valore = item.generate2(numeroElementi);
+        verify(valore, configMap, numeroElementi);
+        saveToFile(valore, "log.txt", false);
         System.out.println("generate2:" + (System.currentTimeMillis() - start));
-        // scrivere un generatore di stringhe che generi una sequenza di caratteri lunga
-        // n (da input) separati da virgola secondo le seguenti regole:
-        // nelle posizioni multiple di 3 il numero è sostituito da "Tre"
-        // nelle posizioni multiple di 5 il numero è sostituito da "Cinque"
-        // nelle posizioni multiple sia di 3 che 5 il numero è sostituito da "TreCinque"
-        // nelle restanti ci deve essere il numero della posizione
-        // esempi
-        // generate(3) > "1,2,Tre"
-        // generate(5) > "1,2,Tre,4,Cinque"
-        // generate(15) > "1,2,Tre,4,Cinque,Tre,7,8,Tre,Cinque,11,Tre,13,14,TreCinque"
+    }
 
-        // scrivere un test per generate(50000)
+    /**
+     * Salva la sequenza in un file, con l'opzione di appendere o sovrascrivere.
+     * 
+     * @param sequence La sequenza da salvare
+     * @param fileName Il nome del file
+     * @param append   Se true, appende al file; se false, sovrascrive
+     * @throws IOException Se si verifica un errore durante la scrittura
+     */
+    public static void saveToFile(String sequence, String fileName, boolean append) {
+        try {
+            if (append) {
+                appendSequenceToFile(sequence, fileName);
+            } else {
+                saveSequenceToFile(sequence, fileName);
+            }
+        } catch (Exception e) {
+            System.out.println("errore durante il salvataggio");
+            System.out.println(e.getStackTrace());
+        }
+    }
+
+    /**
+     * Appende la sequenza a un file esistente. Se il file non esiste, lo crea.
+     * 
+     * @param sequence La sequenza da appendere
+     * @param fileName Il nome del file
+     * @throws IOException Se si verifica un errore durante la scrittura
+     */
+    public static void appendSequenceToFile(String sequence, String fileName) throws IOException {
+        Files.write(Paths.get(fileName), sequence.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+    }
+
+    /**
+     * Salva la sequenza in un file, sovrascrivendo il contenuto esistente.
+     * 
+     * @param sequence La sequenza da salvare
+     * @param fileName Il nome del file
+     * @throws IOException Se si verifica un errore durante la scrittura
+     */
+    public static void saveSequenceToFile(String sequence, String fileName) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            writer.write(sequence);
+        }
     }
 
     static void verify(String stringDaVerify, HashMap<Integer, String> configMap, int numeroElementi) {
@@ -70,7 +110,7 @@ public class Main {
                                 + conto)
                         .isTrue();
             });
-
+            System.out.println("verifica stringa effettuata!");
         } catch (Exception e) {
             System.out.println(e);
         }

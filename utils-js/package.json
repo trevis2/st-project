@@ -9,14 +9,12 @@
     "build": "tsc",
     "dev": "cross-env NODE_ENV=development nodemon --exec ts-node --esm index.ts",
     "prod": "cross-env NODE_ENV=production npm run start",
-    "install:all": "npm ci",
-    "install:prod": "npm ci --only=production",
+    "clean-install": "npm ci",
     "clean": "rimraf dist node_modules",
-    "prebuild": "npm run clean",
-    "predeploy": "npm run build",
-    "deploy": "npm run install:prod && npm run prod",
-    "switch:dev": "npm run clean && npm run install:all && npm run dev",
-    "switch:prod": "npm run clean && npm run deploy"
+    "deploy-local:dev": "npm run clean-install && npm run dev",
+    "deploy-local:prod": "npm run clean-install && npm run build && npm run prod",
+    "switch-local:dev": "npm run clean && npm run deploy-local:dev",
+    "switch-local:prod": "npm run clean && npm run deploy-local:prod"
   },
   "keywords": [
     "esm",
