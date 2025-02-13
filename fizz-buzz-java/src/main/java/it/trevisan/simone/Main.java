@@ -30,8 +30,8 @@ public class Main {
         configMap.put(3, "Tre");
         configMap.put(7, "Sette");
         configMap.put(11, "Undici");
-        // configMap.put(13, "Tredici");
-        // configMap.put(17, "Diciassette");
+        //configMap.put(13, "Tredici");
+        //configMap.put(17, "Diciassette");
         // configMap.put(19, "Diciannove");
         // configMap.put(23, "Ventitr");
 
@@ -41,7 +41,7 @@ public class Main {
         // verify(item.generate2(5), configMap, 5);
         // verify(item.generate2(500), configMap, 500);
 
-        int numeroElementi = 1000;
+        int numeroElementi = 2000;
         long start = System.currentTimeMillis();
         // item.generate(test);
         // System.out.println("generate:" + (System.currentTimeMillis() - start));
